@@ -1,0 +1,30 @@
+#version 330 core
+
+
+// Ouput data
+out vec3 color;
+//out vec3 color2;
+in vec3 Color;
+in vec2 texout; 
+in vec2 texout2; 
+in vec3 position;
+uniform vec3 ambid;
+uniform vec3 lightcolor;
+uniform vec3 lightpostion;
+uniform sampler2D mytexturesampler;
+in vec3 normals;
+void main()
+{
+
+	// we set the color of each fragment to light color and matrial color.
+	vec3 a=ambid*texture (mytexturesampler ,texout).rgb;
+	vec3 Dl = lightcolor;
+	vec3 DM = texture(mytexturesampler, texout ).rgb;
+     vec3 l = normalize(lightpostion - position);
+    float costheta=clamp(dot(l,normals),0,1);
+	 vec3 d=Dl*DM*costheta;
+	 vec3 i=a+d;
+     color=i ;
+//	 color2 = texture(mytexturesampler , texout2).rgb; 
+}
+
